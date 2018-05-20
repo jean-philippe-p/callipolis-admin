@@ -1,0 +1,11 @@
+<nav class="navbar navbar-default" data-spy="affix" data-offset-top="0">
+  <app-nav-bar></app-nav-bar>
+</nav>
+<div class="container-fluid">
+  <div *ngIf="!loginService.token">
+    <app-login></app-login>
+  </div>
+  <div *ngIf="loginService.token">
+    <router-outlet></router-outlet>
+  </div>
+</div>
