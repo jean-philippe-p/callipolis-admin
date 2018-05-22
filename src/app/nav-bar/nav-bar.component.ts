@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MainService } from '../service';
+import { Introduce } from '../introduce';
 import { ServiceService } from '../service.service';
 import * as $ from 'jquery';
 
@@ -12,12 +13,14 @@ export class NavBarComponent implements OnInit {
 
   summary_services: MainService[] = [];
   search_matches = [];
+  introduces: Introduce[] = [];
 
   constructor(private serviceService: ServiceService) { }
 
   ngOnInit() {
     this.serviceService.getNavBarElements().subscribe(navbar_elements => {
       this.summary_services = navbar_elements.services;
+      this.introduces = navbar_elements.introduces;
       $(document).ready(function(){
         $( ".link-text" )
           .mouseover(function() {

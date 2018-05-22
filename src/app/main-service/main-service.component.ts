@@ -1,6 +1,7 @@
 import { Component, OnInit, DoCheck } from '@angular/core';
 import { MainService } from '../service';
 import { ServiceService } from '../service.service';
+import { GenericService } from '../generic.service';
 import { LoginService } from '../login.service';
 import { ActivatedRoute } from '@angular/router';
 
@@ -25,7 +26,8 @@ export class MainServiceComponent implements OnInit, DoCheck {
     private route: ActivatedRoute,
     private serviceService: ServiceService,
     private fb: FormBuilder,
-    private loginService: LoginService
+    private loginService: LoginService,
+    private genericService: GenericService
   ) {
     this.form = this.fb.group({
       name: ['', Validators.required],
@@ -35,7 +37,7 @@ export class MainServiceComponent implements OnInit, DoCheck {
 
   ngOnInit() {
     this.currentId = +this.route.snapshot.paramMap.get('id');
-    this.serviceService.getService(this.currentId).subscribe(mainService => {
+    this.genericService.getResource('MainService', this.currentId).subscribe(mainService => {
       this.model = mainService;
     });
   }
@@ -44,7 +46,7 @@ export class MainServiceComponent implements OnInit, DoCheck {
     const id = +this.route.snapshot.paramMap.get('id');
     if (this.currentId !== id) {
       this.currentId = id;
-      this.serviceService.getService(this.currentId).subscribe(mainService => {
+      this.genericService.getResource('MainService', this.currentId).subscribe(mainService => {
         this.model = mainService;
       });
     }
@@ -68,7 +70,7 @@ export class MainServiceComponent implements OnInit, DoCheck {
 
   onSubmit() {
     this.enable = false;
-    this.serviceService.setService(this.model).subscribe(mainService => {
+    this.genericService.setResource('MainService', this.model).subscribe(mainService => {
       this.enable = true;
       alert('sauvegarde effectuée');
     });

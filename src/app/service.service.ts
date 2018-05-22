@@ -17,7 +17,8 @@ const httpServiceOptions = {
 @Injectable()
 export class ServiceService {
 
-  private serviceUrl: string = 'https://www.callipolis-investigation.fr/api';
+  private serviceUrl: string = 'http://localhost/api';
+  //private serviceUrl: string = 'https://www.callipolis-investigation.fr/api';
 
   constructor(private http: HttpClient, private loginService: LoginService) { }
 
@@ -27,34 +28,6 @@ export class ServiceService {
 
   getServices(): Observable<MainService[]> {
     return this.http.get<MainService[]>(this.serviceUrl + '/MainServices');
-  }
-
-  getService(id: number): Observable<MainService> {
-    let service: MainService;
-
-    return this.http.get<MainService>(this.serviceUrl + '/MainService/' + id).map(
-      service_res => {
-        service = service_res;
-        return service;
-      }
-    )/*.mergeMap(() =>  this.http.get<Service[]>(this.serviceUrl + '/SubServices/' + id))
-    .map(sub_services => {
-        service.subServices = sub_services;
-        return service;
-      }
-    )*/;
-  }
-
-  getSubService(id: number): Observable<Service> {
-    return this.http.get<Service>(this.serviceUrl + '/SubService/' + id);
-  }
-
-  setService(service: MainService): Observable<MainService> {
-    return this.http.post<MainService>(this.serviceUrl + '/MainService?token=' + this.loginService.token, service, httpServiceOptions);
-  }
-
-  setSubService(subService: Service): Observable<Service> {
-    return this.http.post<Service>(this.serviceUrl + '/SubService?token=' + this.loginService.token, subService, httpServiceOptions);
   }
 
   uploadLogo(formData: FormData): Observable<any> {

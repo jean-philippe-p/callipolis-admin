@@ -2,6 +2,7 @@ import { Component, OnInit, DoCheck } from '@angular/core';
 import { Service } from '../service';
 import { ServiceService } from '../service.service';
 import { ActivatedRoute } from '@angular/router';
+import { GenericService } from '../generic.service';
 
 import { ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -23,7 +24,8 @@ export class SubServiceComponent implements OnInit, DoCheck {
   constructor(
     private route: ActivatedRoute,
     private serviceService: ServiceService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private genericService: GenericService
   ) {
     this.form = this.fb.group({
       name: ['', Validators.required],
@@ -33,7 +35,7 @@ export class SubServiceComponent implements OnInit, DoCheck {
 
   ngOnInit() {
     this.currentId = +this.route.snapshot.paramMap.get('sub-id');
-    this.serviceService.getSubService(this.currentId).subscribe(subService => {
+    this.genericService.getResource('SubService', this.currentId).subscribe(subService => {
       this.model = subService;
     });
   }
@@ -42,7 +44,7 @@ export class SubServiceComponent implements OnInit, DoCheck {
     const id = +this.route.snapshot.paramMap.get('sub-id');
     if (this.currentId !== id) {
       this.currentId = id;
-      this.serviceService.getSubService(this.currentId).subscribe(subService => {
+      this.genericService.getResource('SubService', this.currentId).subscribe(subService => {
         this.model = subService;
       });
     }
@@ -66,7 +68,7 @@ export class SubServiceComponent implements OnInit, DoCheck {
 
   onSubmit() {
     this.enable = false;
-    this.serviceService.setSubService(this.model).subscribe(subService => {
+    this.genericService.setResource('SubService', this.model).subscribe(subService => {
       this.enable = true;
       alert('sauvegarde effectuée');
     });

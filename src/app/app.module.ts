@@ -14,6 +14,8 @@ import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { ServiceService } from './service.service';
 import { LoginService } from './login.service';
+import { GenericService } from './generic.service';
+import { IntroduceComponent } from './introduce/introduce.component';
 
 
 @NgModule({
@@ -23,7 +25,8 @@ import { LoginService } from './login.service';
     MainServiceComponent,
     SubServiceComponent,
     HomeComponent,
-    LoginComponent
+    LoginComponent,
+    IntroduceComponent
   ],
   imports: [
     BrowserModule,
@@ -34,7 +37,7 @@ import { LoginService } from './login.service';
     FroalaEditorModule.forRoot(),
     FroalaViewModule.forRoot()
   ],
-  providers: [ServiceService, LoginService],
+  providers: [ServiceService, LoginService, GenericService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

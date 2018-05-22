@@ -18,5 +18,15 @@
         </li>
       </ul>
     </li>
+    <li class="dropdown">
+      <a href="#" data-toggle="dropdown" class="hvr-underline-from-center">Qui sommes-nous ?<span class="caret"></span></a>
+      <ul class="dropdown-menu">
+        <li *ngFor="let introduce of introduces" class="dropdown-submenu">
+          <a routerLink="/introduces/{{introduce.id}}" class="dropdown-toggle" data-toggle="dropdown">
+            <div class="link-container"><span class="link-text">{{introduce.title}}</span></div>
+          </a>
+        </li>
+      </ul>
+    </li>
   </ul>
 </div>
