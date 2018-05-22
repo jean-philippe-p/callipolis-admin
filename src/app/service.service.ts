@@ -17,8 +17,7 @@ const httpServiceOptions = {
 @Injectable()
 export class ServiceService {
 
-  private serviceUrl: string = 'http://localhost/api';
-  //private serviceUrl: string = 'https://www.callipolis-investigation.fr/api';
+  private serviceUrl: string = 'https://www.callipolis-investigation.fr/api';
 
   constructor(private http: HttpClient, private loginService: LoginService) { }
 
