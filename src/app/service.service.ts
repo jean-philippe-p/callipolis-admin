@@ -22,7 +22,7 @@ export class ServiceService {
   constructor(private http: HttpClient, private loginService: LoginService) { }
 
   getNavBarElements(): Observable<any> {
-    return this.http.get<MainService[]>(this.serviceUrl + '/Navbar');
+    return this.http.get<MainService[]>(this.serviceUrl + '/Navbar?withFooterIntroduces=true');
   }
 
   getServices(): Observable<MainService[]> {
