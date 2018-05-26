@@ -3,7 +3,7 @@ import { MainService } from '../service';
 import { ServiceService } from '../service.service';
 import { GenericService } from '../generic.service';
 import { LoginService } from '../login.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -24,6 +24,7 @@ export class MainServiceComponent implements OnInit, DoCheck {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private serviceService: ServiceService,
     private fb: FormBuilder,
     private loginService: LoginService,
@@ -36,19 +37,26 @@ export class MainServiceComponent implements OnInit, DoCheck {
   }
 
   ngOnInit() {
-    this.currentId = +this.route.snapshot.paramMap.get('id');
-    this.genericService.getResource('MainService', this.currentId).subscribe(mainService => {
-      this.model = mainService;
-    });
-  }
-
-  ngDoCheck() {
-    const id = +this.route.snapshot.paramMap.get('id');
-    if (this.currentId !== id) {
-      this.currentId = id;
+    if (this.route.snapshot.paramMap.has('id')) {
+      this.currentId = +this.route.snapshot.paramMap.get('id');
       this.genericService.getResource('MainService', this.currentId).subscribe(mainService => {
         this.model = mainService;
       });
+    } else {
+      this.model = new MainService();
+      this.model.subServices = [];
+    }
+  }
+
+  ngDoCheck() {
+    if (this.route.snapshot.paramMap.has('id')) {
+      const id = +this.route.snapshot.paramMap.get('id');
+     if (this.currentId !== id) {
+        this.currentId = id;
+        this.genericService.getResource('MainService', this.currentId).subscribe(mainService => {
+          this.model = mainService;
+        });
+      }
     }
   }
 
@@ -69,10 +77,25 @@ export class MainServiceComponent implements OnInit, DoCheck {
   }
 
   onSubmit() {
+    let route = typeof this.model.id === 'undefined';
     this.enable = false;
     this.genericService.setResource('MainService', this.model).subscribe(mainService => {
       this.enable = true;
       alert('sauvegarde effectuée');
+      if (route) {
+        this.serviceService.getNavBarElements().subscribe(res => {
+          this.router.navigate(['/services/' + this.model.id]);
+        });
+      }
+    });
+  }
+  
+  delete() {
+    this.enable = false;
+    this.genericService.deleteResource('MainService', this.model.id).subscribe(res => {
+      this.enable = true;
+      alert('suppression effectuée');
+      this.serviceService.getNavBarElements().subscribe(res => {this.router.navigate(['/home']);});
     });
   }
 

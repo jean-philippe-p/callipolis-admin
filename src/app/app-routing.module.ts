@@ -10,7 +10,9 @@ import { IntroduceComponent } from './introduce/introduce.component';
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
+  { path: 'services/create', component: MainServiceComponent },
   { path: 'services/:id', component: MainServiceComponent },
+  { path: 'services/:id/sub-services/create', component: SubServiceComponent },
   { path: 'services/:id/sub-services/:sub-id', component: SubServiceComponent },
   { path: 'introduces/:id', component: IntroduceComponent }
 ];

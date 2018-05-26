@@ -18,11 +18,19 @@ const httpServiceOptions = {
 export class ServiceService {
 
   private serviceUrl: string = 'https://www.callipolis-investigation.fr/api';
+  public summary_services: MainService[] = [];
 
   constructor(private http: HttpClient, private loginService: LoginService) { }
 
   getNavBarElements(): Observable<any> {
-    return this.http.get<MainService[]>(this.serviceUrl + '/Navbar?withFooterIntroduces=true');
+    return this.http.get<any>(this.serviceUrl + '/Navbar?withFooterIntroduces=true')
+    .map(res => {
+        this.summary_services.splice(0, this.summary_services.length);
+        for (let i = 0; i < res.services.length; i++) {
+          this.summary_services.push(res.services[i]);
+        } 
+        return res;
+    });
   }
 
   getServices(): Observable<MainService[]> {

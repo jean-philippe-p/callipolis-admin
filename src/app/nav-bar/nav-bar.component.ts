@@ -11,15 +11,15 @@ import * as $ from 'jquery';
 })
 export class NavBarComponent implements OnInit {
 
-  summary_services: MainService[] = [];
-  search_matches = [];
-  introduces: Introduce[] = [];
+  public summary_services: MainService[];
+  public search_matches = [];
+  public introduces: Introduce[] = [];
 
   constructor(private serviceService: ServiceService) { }
 
   ngOnInit() {
     this.serviceService.getNavBarElements().subscribe(navbar_elements => {
-      this.summary_services = navbar_elements.services;
+      this.summary_services = this.serviceService.summary_services;
       this.introduces = navbar_elements.introduces;
       $(document).ready(function(){
         $( ".link-text" )

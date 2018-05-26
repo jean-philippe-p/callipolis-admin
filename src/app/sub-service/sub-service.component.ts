@@ -1,7 +1,7 @@
 import { Component, OnInit, DoCheck } from '@angular/core';
-import { Service } from '../service';
+import { Service, SubService } from '../service';
 import { ServiceService } from '../service.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { GenericService } from '../generic.service';
 
 import { ElementRef, ViewChild } from '@angular/core';
@@ -15,7 +15,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class SubServiceComponent implements OnInit, DoCheck {
 
   private currentId;
-  public model: Service;
+  public model: SubService;
   public form: FormGroup;
   public enable: boolean = false;
 
@@ -23,6 +23,7 @@ export class SubServiceComponent implements OnInit, DoCheck {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private serviceService: ServiceService,
     private fb: FormBuilder,
     private genericService: GenericService
@@ -34,19 +35,26 @@ export class SubServiceComponent implements OnInit, DoCheck {
   }
 
   ngOnInit() {
-    this.currentId = +this.route.snapshot.paramMap.get('sub-id');
-    this.genericService.getResource('SubService', this.currentId).subscribe(subService => {
-      this.model = subService;
-    });
-  }
-
-  ngDoCheck() {
-    const id = +this.route.snapshot.paramMap.get('sub-id');
-    if (this.currentId !== id) {
-      this.currentId = id;
+    if (this.route.snapshot.paramMap.has('sub-id')) {
+      this.currentId = +this.route.snapshot.paramMap.get('sub-id');
       this.genericService.getResource('SubService', this.currentId).subscribe(subService => {
         this.model = subService;
       });
+    } else {
+      this.model = new SubService();
+      this.model.mainService = +this.route.snapshot.paramMap.get('id');
+    }
+  }
+
+  ngDoCheck() {
+    if (this.route.snapshot.paramMap.has('sub-id')) {
+      const id = +this.route.snapshot.paramMap.get('sub-id');
+      if (this.currentId !== id) {
+        this.currentId = id;
+        this.genericService.getResource('SubService', this.currentId).subscribe(subService => {
+          this.model = subService;
+        });
+      }
     }
   }
 
@@ -67,10 +75,25 @@ export class SubServiceComponent implements OnInit, DoCheck {
   }
 
   onSubmit() {
+    let route = typeof this.model.id === 'undefined';
     this.enable = false;
     this.genericService.setResource('SubService', this.model).subscribe(subService => {
       this.enable = true;
       alert('sauvegarde effectuée');
+      if (route) {
+        this.serviceService.getNavBarElements().subscribe(res => {
+          this.router.navigate(['/services/' + this.route.snapshot.paramMap.get('id') + '/sub-services/' + this.model.id]);
+        });
+      }
+    });
+  }
+  
+  delete() {
+    this.enable = false;
+    this.genericService.deleteResource('SubService', this.model.id).subscribe(res => {
+      this.enable = true;
+      alert('suppression effectuée');
+      this.serviceService.getNavBarElements().subscribe(res => {this.router.navigate(['/home']);});
     });
   }
 

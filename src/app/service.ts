@@ -13,3 +13,7 @@ export class Service {
 export class MainService extends Service {
   subServices: Service[] = [];
 }
+
+export class SubService extends Service {
+  mainService: number;
+}

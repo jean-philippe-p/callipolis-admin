@@ -28,19 +28,15 @@ export class GenericService {
       this.serviceUrl + '/' + resource + '?token=' + this.loginService.token, 
       object, 
       httpServiceOptions
-    );
-  }
-
-  addResource(resource: string, object: any): Observable<any> {
-    return this.http.post<any>(
-      this.serviceUrl + '/' + resource + '?token=' + this.loginService.token, 
-      object, 
-      httpServiceOptions
     ).map(
       res => {
         object.id = res.id;
       }
     );
+  }
+  
+  deleteResource(resource: string, id: number): Observable<any> {
+    return this.http.delete<any>(this.serviceUrl + '/' + resource + '/' + id + '?token=' + this.loginService.token);
   }
 
 }

@@ -14,7 +14,17 @@
                 <div class="link-container"><span class="link-text">{{sub_service.title}}</span></div>
               </a>
             </li>
+            <li>
+              <a routerLink="/services/{{summary_service.id}}/sub-services/create"  style="text-align: center">
+                <div class="link-container"><span class="link-text glyphicon glyphicon-plus"></span></div>
+              </a>
+            </li>
           </ul>
+        </li>
+        <li>
+          <a routerLink="/services/create" style="text-align: center">
+            <div class="link-container"><span class="link-text glyphicon glyphicon-plus"></span></div>
+          </a>
         </li>
       </ul>
     </li>

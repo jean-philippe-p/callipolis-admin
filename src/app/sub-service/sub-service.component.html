@@ -32,7 +32,7 @@
     </div>
     
     <div class="form-group">
-      <label for="keyWords">Titre</label>
+      <label for="keyWords">Mots clefs</label>
       <input type="text" *ngFor="let keyword of model.keyWords; let i = index; trackBy:trackByFn" id="keyWords-{{i}}" name="keyWords-{{i}}" [(ngModel)]="model.keyWords[i]" style="width:200px;">
       <button type="button" (click)="model.keyWords.push('')">+</button>
     </div>
@@ -54,6 +54,7 @@
       </div>
     </div>
     
-    <button type="submit">Submit</button>
+    <button type="submit" name="submit" id="submit">Submit</button>
+    <button type="button" name="delete" id="delete" class="pull-right" (click)="delete()">delete</button>
   </form>
 </div>
