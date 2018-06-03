@@ -67,7 +67,7 @@ export class IntroduceComponent implements OnInit, DoCheck {
     this.genericService.deleteResource('Introduce', this.model.id).subscribe(res => {
       this.enable = true;
       alert('suppression effectuée');
-      this.serviceService.getNavBarElements().subscribe(res => {this.router.navigate(['/home']);});
+      this.serviceService.getNavBarElements().subscribe(res => {this.router.navigate(['/contacts']);});
     });
   }
 
