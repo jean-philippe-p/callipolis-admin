@@ -31,12 +31,44 @@
     <li class="dropdown">
       <a href="#" data-toggle="dropdown" class="hvr-underline-from-center">Qui sommes-nous ?<span class="caret"></span></a>
       <ul class="dropdown-menu">
-        <li *ngFor="let introduce of introduces">
-          <a routerLink="/introduces/{{introduce.id}}">
-            <div class="link-container"><span class="link-text">{{introduce.title}}</span></div>
+        <ng-container *ngFor="let introduce of introduces">
+          <li *ngIf="introduce.display === 'navbar'">
+            <a routerLink="/introduces/{{introduce.id}}">
+              <div class="link-container"><span class="link-text">{{introduce.title}}</span></div>
+            </a>
+          </li>
+        </ng-container>
+      </ul>
+    </li>
+    <li class="dropdown">
+      <a href="#" data-toggle="dropdown" class="hvr-underline-from-center">Légales<span class="caret"></span></a>
+      <ul class="dropdown-menu">
+        <ng-container *ngFor="let introduce of introduces">
+          <li *ngIf="introduce.display === 'footer'">
+            <a routerLink="/introduces/{{introduce.id}}">
+              <div class="link-container"><span class="link-text">{{introduce.title}}</span></div>
+            </a>
+          </li>
+        </ng-container>
+      </ul>
+    </li>
+    <li class="dropdown">
+      <a href="#" data-toggle="dropdown" class="hvr-underline-from-center">Carousel<span class="caret"></span></a>
+      <ul class="dropdown-menu">
+        <ng-container *ngFor="let introduce of introduces">
+          <li *ngIf="introduce.display === 'carousel'">
+            <a routerLink="/introduces/{{introduce.id}}">
+              <div class="link-container"><span class="link-text">{{introduce.title}}</span></div>
+            </a>
+          </li>
+        </ng-container>
+        <li>
+          <a routerLink="/introduces/create" style="text-align: center">
+            <div class="link-container"><span class="link-text glyphicon glyphicon-plus"></span></div>
           </a>
         </li>
       </ul>
     </li>
+    <li><a routerLink="/contacts" class="hvr-underline-from-center">Contact</a></li>
   </ul>
 </div>

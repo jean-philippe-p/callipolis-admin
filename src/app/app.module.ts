@@ -16,7 +16,12 @@ import { ServiceService } from './service.service';
 import { LoginService } from './login.service';
 import { GenericService } from './generic.service';
 import { IntroduceComponent } from './introduce/introduce.component';
+import { ContactComponent } from './contact/contact.component';
 
+import { registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
+
+registerLocaleData(localeFr, 'fr');
 
 @NgModule({
   declarations: [
@@ -26,7 +31,8 @@ import { IntroduceComponent } from './introduce/introduce.component';
     SubServiceComponent,
     HomeComponent,
     LoginComponent,
-    IntroduceComponent
+    IntroduceComponent,
+    ContactComponent
   ],
   imports: [
     BrowserModule,

@@ -89,10 +89,13 @@ export class MainServiceComponent implements OnInit, DoCheck {
       }
     });
   }
-  
+
   delete() {
     this.enable = false;
-    this.genericService.deleteResource('MainService', this.model.id).subscribe(res => {
+    const obj = new MainService();
+    obj.id = this.model.id;
+    obj.available = false;
+    this.genericService.setResource('MainService', obj).subscribe(mainService => {
       this.enable = true;
       alert('suppression effectuée');
       this.serviceService.getNavBarElements().subscribe(res => {this.router.navigate(['/home']);});

@@ -8,6 +8,7 @@ export class Service {
   articles: string;
   important: string;
   keyWords: string[] = [];
+  available: boolean = true;
 }
 
 export class MainService extends Service {

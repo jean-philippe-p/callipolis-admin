@@ -20,7 +20,7 @@ export class NavBarComponent implements OnInit {
   ngOnInit() {
     this.serviceService.getNavBarElements().subscribe(navbar_elements => {
       this.summary_services = this.serviceService.summary_services;
-      this.introduces = navbar_elements.introduces;
+      this.introduces = this.serviceService.introduces;
       $(document).ready(function(){
         $( ".link-text" )
           .mouseover(function() {

@@ -87,10 +87,13 @@ export class SubServiceComponent implements OnInit, DoCheck {
       }
     });
   }
-  
+
   delete() {
     this.enable = false;
-    this.genericService.deleteResource('SubService', this.model.id).subscribe(res => {
+    const obj = new SubService();
+    obj.id = this.model.id;
+    obj.available = false;
+    this.genericService.setResource('SubService', obj).subscribe(mainService => {
       this.enable = true;
       alert('suppression effectuée');
       this.serviceService.getNavBarElements().subscribe(res => {this.router.navigate(['/home']);});

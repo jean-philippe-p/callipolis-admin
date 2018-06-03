@@ -2,7 +2,8 @@ import { Component, OnInit, DoCheck } from '@angular/core';
 import { Introduce } from '../introduce';
 import { GenericService } from '../generic.service';
 import { LoginService } from '../login.service';
-import { ActivatedRoute } from '@angular/router';
+import { ServiceService } from '../service.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-introduce',
@@ -17,32 +18,56 @@ export class IntroduceComponent implements OnInit, DoCheck {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private loginService: LoginService,
-    private genericService: GenericService
+    private genericService: GenericService,
+    private serviceService: ServiceService
   ) { }
 
   ngOnInit() {
-    this.currentId = +this.route.snapshot.paramMap.get('id');
-    this.genericService.getResource('Introduce', this.currentId).subscribe(introduce => {
-      this.model = introduce;
-    });
-  }
-
-  ngDoCheck() {
-    const id = +this.route.snapshot.paramMap.get('id');
-    if (this.currentId !== id) {
-      this.currentId = id;
+    if (this.route.snapshot.paramMap.has('id')) {
+      this.currentId = +this.route.snapshot.paramMap.get('id');
       this.genericService.getResource('Introduce', this.currentId).subscribe(introduce => {
         this.model = introduce;
       });
+    } else {
+      this.model = new Introduce();
+      this.model.display = 'carousel';
+    }
+  }
+
+  ngDoCheck() {
+    if (this.route.snapshot.paramMap.has('id')) {
+      const id = +this.route.snapshot.paramMap.get('id');
+      if (this.currentId !== id) {
+        this.currentId = id;
+        this.genericService.getResource('Introduce', this.currentId).subscribe(introduce => {
+          this.model = introduce;
+        });
+      }
     }
   }
 
   onSubmit() {
+    let route = typeof this.model.id === 'undefined';
     this.enable = false;
     this.genericService.setResource('Introduce', this.model).subscribe(introduce => {
       this.enable = true;
       alert('sauvegarde effectuée');
+      if (route) {
+        this.serviceService.getNavBarElements().subscribe(res => {
+          this.router.navigate(['/introduces/' + this.model.id]);
+        });
+      }
+    });
+  }
+
+  delete() {
+    this.enable = false;
+    this.genericService.deleteResource('Introduce', this.model.id).subscribe(res => {
+      this.enable = true;
+      alert('suppression effectuée');
+      this.serviceService.getNavBarElements().subscribe(res => {this.router.navigate(['/home']);});
     });
   }
 

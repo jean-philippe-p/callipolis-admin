@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { MainService, Service } from './service';
+import { Introduce } from './introduce';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
@@ -19,16 +20,21 @@ export class ServiceService {
 
   private serviceUrl: string = 'https://www.callipolis-investigation.fr/api';
   public summary_services: MainService[] = [];
+  public introduces: Introduce[] = [];
 
   constructor(private http: HttpClient, private loginService: LoginService) { }
 
   getNavBarElements(): Observable<any> {
-    return this.http.get<any>(this.serviceUrl + '/Navbar?withFooterIntroduces=true')
+    return this.http.get<any>(this.serviceUrl + '/Navbar?display=["footer","carousel"]')
     .map(res => {
         this.summary_services.splice(0, this.summary_services.length);
         for (let i = 0; i < res.services.length; i++) {
           this.summary_services.push(res.services[i]);
-        } 
+        }
+        this.introduces.splice(0, this.introduces.length);
+        for (let i = 0; i < res.introduces.length; i++) {
+          this.introduces.push(res.introduces[i]);
+        }
         return res;
     });
   }

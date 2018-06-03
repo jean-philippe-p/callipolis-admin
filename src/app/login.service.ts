@@ -29,7 +29,6 @@ export class LoginService {
       name: name,
       password: MD5(password)
     };
-    console.log(request);
     return this.http.post<any>(this.serviceUrl + '/login', request, httpServiceOptions).map(
       res => {
         this.token = res.token;

@@ -1,47 +1,47 @@
 <div *ngIf="model" class="service">
   <form (ngSubmit)="onSubmit()" #mainServieForm="ngForm" id="mainServieForm">
-    
+
     <div class="form-group">
       <label for="title">Titre</label>
       <input type="text" class="form-control" id="title" [(ngModel)]="model.title" name="title" style="width:200px;">
     </div>
-    
+
     <div class="form-group">
       <label for="summary">Résumé</label>
       <textarea [froalaEditor] [(ngModel)]="model.summary" id="summary" name="summary"></textarea>
     </div>
-    
+
     <div class="form-group">
       <label for="text">Texte</label>
       <textarea [froalaEditor] [(ngModel)]="model.text" id="text" name="text"></textarea>
     </div>
-    
+
     <div class="form-group">
       <label for="articles">Articles</label>
       <textarea [froalaEditor] [(ngModel)]="model.articles" id="articles" name="articles"></textarea>
     </div>
-    
+
     <div class="form-group">
       <label for="important">Important</label>
       <textarea [froalaEditor] [(ngModel)]="model.important" id="important" name="important"></textarea>
     </div>
-    
+
     <div class="form-group">
       <label for="color">Couleur</label>
       <input type="color" class="form-control" id="color" [(ngModel)]="model.color" name="color" style="width:50px;">
     </div>
-    
+
     <div class="form-group">
       <label for="keyWords">Mots clefs</label>
       <input type="text" *ngFor="let keyword of model.keyWords; let i = index; trackBy:trackByFn" id="keyWords-{{i}}" name="keyWords-{{i}}" [(ngModel)]="model.keyWords[i]" style="width:200px;">
       <button type="button" (click)="model.keyWords.push('')">+</button>
     </div>
-    
+
     <div class="form-group">
       <label for="rate">Tarif</label>
       <input type="number" step="0.01" min="0" class="form-control" id="rate" [(ngModel)]="model.rate" name="rate" style="width:200px;">
     </div>
-    
+
     <div class="form-group">
       <label for="logo">Logo</label>
       <input type="file" class="form-control" id="logo" name="logo" (change)="uploadLogo($event)" #fileInput style="width:300px;">
@@ -53,8 +53,8 @@
         >
       </div>
     </div>
-    
-    <button type="submit" name="submit" id="submit">Submit</button>
-    <button type="button" name="delete" id="delete" class="pull-right" (click)="delete()">delete</button>
+
+    <button type="submit" name="submit" id="submit">Sauvegarder</button>
+    <button *ngIf="model.id || model.id === 0" type="button" name="delete" id="delete" class="pull-right" (click)="delete()">Supprimer</button>
   </form>
 </div>

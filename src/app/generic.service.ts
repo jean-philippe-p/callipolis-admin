@@ -22,11 +22,11 @@ export class GenericService {
   getResource(resource: string, id: number): Observable<any> {
     return this.http.get<any>(this.serviceUrl + '/' + resource + '/' + id);
   }
-  
+
   setResource(resource: string, object: any): Observable<any> {
     return this.http.post<any>(
-      this.serviceUrl + '/' + resource + '?token=' + this.loginService.token, 
-      object, 
+      this.serviceUrl + '/' + resource + '?token=' + this.loginService.token,
+      object,
       httpServiceOptions
     ).map(
       res => {
@@ -34,9 +34,17 @@ export class GenericService {
       }
     );
   }
-  
+
   deleteResource(resource: string, id: number): Observable<any> {
     return this.http.delete<any>(this.serviceUrl + '/' + resource + '/' + id + '?token=' + this.loginService.token);
+  }
+
+  getResources(resources: string, params: {} = {}): Observable<any> {
+    let query = jQuery.param(params);
+    if (query) {
+      query = '?' + query;
+    }
+    return this.http.get<any>(this.serviceUrl + '/' + resources + query);
   }
 
 }

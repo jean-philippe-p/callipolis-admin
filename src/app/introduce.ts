@@ -4,4 +4,5 @@ export class Introduce {
   text: string;
   articles: string;
   important: string;
+  display: string;
 }
