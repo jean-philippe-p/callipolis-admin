@@ -20,6 +20,7 @@ import { ContactComponent } from './contact/contact.component';
 
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
+import { CompanyComponent } from './company/company.component';
 
 registerLocaleData(localeFr, 'fr');
 
@@ -32,7 +33,8 @@ registerLocaleData(localeFr, 'fr');
     HomeComponent,
     LoginComponent,
     IntroduceComponent,
-    ContactComponent
+    ContactComponent,
+    CompanyComponent
   ],
   imports: [
     BrowserModule,

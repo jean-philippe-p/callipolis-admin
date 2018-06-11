@@ -14,29 +14,29 @@
   <table class="table table-hover">
     <thead>
       <tr>
-        <th style="width: 275px;">Date</th>
+        <th>Date</th>
         <th>Téléphone</th>
-        <th style="width:200px">Email</th>
+        <th>Email</th>
         <th>Ville</th>
-        <th style="width:130px">Code Postal</th>
+        <th style="white-space: nowrap;">Code Postal</th>
         <th style="width:200px">Service</th>
         <th style="width:500px">Informations</th>
-        <th style="width:200px">Traité</th>
+        <th>Traité</th>
         <th></th>
       </tr>
     </thead>
     <tbody>
       <ng-container *ngFor="let contact of contacts">
         <tr *ngIf="true">
-          <td>{{contact.creationDate | date:'fullDate':'':'fr'}}</td>
+          <td style="white-space: nowrap;">{{contact.creationDate | date:'fullDate':'':'fr'}}</td>
           <td>{{contact.phone ? contact.phone : '-'}}</td>
-          <td>{{contact.email ? contact.email : '-'}}</td>
+          <td style="white-space: nowrap;">{{contact.email ? contact.email : '-'}}</td>
           <td>{{contact.town ? towns[contact.town][0] : '-'}}</td>
           <td>{{contact.town ? towns[contact.town][1] : '-'}}</td>
           <td>{{contact.service ? subServicesTitles[contact.service] : '-'}}</td>
           <td *ngIf="contact.informations" [innerHTML]="contact.informations"></td>
           <td *ngIf="!contact.informations">-</td>
-          <td style="width: 130px;">
+          <td style="white-space: nowrap;">
             <label class="radio-inline"><input type="radio" name="{{'radiogroup' + contact.id}}" [checked]="contact.processed" (change)="contact.processed = true">Oui</label>
             <label class="radio-inline"><input type="radio" name="{{'radiogroup' + contact.id}}" [checked]="!contact.processed" (change)="contact.processed = false">Non</label>
           </td>
