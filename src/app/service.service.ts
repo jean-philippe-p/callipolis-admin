@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { MainService, Service } from './service';
 import { Introduce } from './introduce';
+import { CarouselPart } from './carousel-part';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
@@ -21,11 +22,12 @@ export class ServiceService {
   private serviceUrl: string = 'https://www.callipolis-investigation.fr/api';
   public summary_services: MainService[] = [];
   public introduces: Introduce[] = [];
+  public carousel: CarouselPart[] = [];
 
   constructor(private http: HttpClient, private loginService: LoginService) { }
 
   getNavBarElements(): Observable<any> {
-    return this.http.get<any>(this.serviceUrl + '/Navbar?display=["footer","carousel"]')
+    return this.http.get<any>(this.serviceUrl + '/Navbar?display=["footer"]&carousel=true')
     .map(res => {
         this.summary_services.splice(0, this.summary_services.length);
         for (let i = 0; i < res.services.length; i++) {
@@ -34,6 +36,10 @@ export class ServiceService {
         this.introduces.splice(0, this.introduces.length);
         for (let i = 0; i < res.introduces.length; i++) {
           this.introduces.push(res.introduces[i]);
+        }
+        this.carousel.splice(0, this.carousel.length);
+        for (let i = 0; i < res.carousel.length; i++) {
+          this.carousel.push(res.carousel[i]);
         }
         return res;
     });
@@ -47,7 +53,7 @@ export class ServiceService {
     return this.http.post<MainService>(this.serviceUrl + '/upload/Logo?token=' + this.loginService.token, formData);
   }
 
-  getLogoUrl(serviceId: number): string {
+  getLogoUrl(serviceId: string): string {
     return this.serviceUrl + '/Logo/' + serviceId;
   }
 

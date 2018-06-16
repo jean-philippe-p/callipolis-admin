@@ -12,15 +12,14 @@
     </div>
 
     <div class="form-group">
-      <label for="articles">Articles</label>
-      <textarea [froalaEditor] [(ngModel)]="model.articles" id="articles" name="articles"></textarea>
-    </div>
-
-    <div class="form-group">
-      <label for="important">Important</label>
-      <textarea [froalaEditor] [(ngModel)]="model.important" id="important" name="important"></textarea>
+      <label for="image">Image</label>
+      <input type="file" class="form-control" id="image" name="image" (change)="uploadImage($event)" #fileInput style="width:300px;">
+      <div *ngIf="model.image">
+        <img src="{{getImageUrl()}}" alt="Generic placeholder image" height="300">
+      </div>
     </div>
 
     <button type="submit">Sauvegarder</button>
+    <button *ngIf="(model.id || model.id === 0)" type="button" name="delete" id="delete" class="pull-right" (click)="delete()">Supprimer</button>
   </form>
 </div>

@@ -55,15 +55,15 @@
     <li class="dropdown">
       <a href="#" data-toggle="dropdown" class="hvr-underline-from-center">Carousel<span class="caret"></span></a>
       <ul class="dropdown-menu">
-        <ng-container *ngFor="let introduce of introduces">
-          <li *ngIf="introduce.display === 'carousel'">
-            <a routerLink="/introduces/{{introduce.id}}">
-              <div class="link-container"><span class="link-text">{{introduce.title}}</span></div>
+        <ng-container *ngFor="let carouselPart of carousel">
+          <li>
+            <a routerLink="/carousel/{{carouselPart.id}}">
+              <div class="link-container"><span class="link-text">{{carouselPart.title}}</span></div>
             </a>
           </li>
         </ng-container>
         <li>
-          <a routerLink="/introduces/create" style="text-align: center">
+          <a routerLink="/carousel/create" style="text-align: center">
             <div class="link-container"><span class="link-text glyphicon glyphicon-plus"></span></div>
           </a>
         </li>

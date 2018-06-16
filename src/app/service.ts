@@ -3,7 +3,7 @@ export class Service {
   title: string;
   summary: string;
   text: string;
-  logo: number;
+  logo: string;
   color: string;
   articles: string;
   important: string;

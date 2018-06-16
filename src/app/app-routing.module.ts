@@ -8,6 +8,7 @@ import { SubServiceComponent } from './sub-service/sub-service.component';
 import { IntroduceComponent } from './introduce/introduce.component';
 import { ContactComponent } from './contact/contact.component';
 import { CompanyComponent } from './company/company.component';
+import { CarouselComponent } from './carousel/carousel.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/contacts', pathMatch: 'full' },
@@ -18,6 +19,8 @@ const routes: Routes = [
   { path: 'services/:id/sub-services/:sub-id', component: SubServiceComponent },
   { path: 'introduces/create', component: IntroduceComponent },
   { path: 'introduces/:id', component: IntroduceComponent },
+  { path: 'carousel/create', component: CarouselComponent },
+  { path: 'carousel/:id', component: CarouselComponent },
   { path: 'companies/1', component: CompanyComponent }
 ];
 
