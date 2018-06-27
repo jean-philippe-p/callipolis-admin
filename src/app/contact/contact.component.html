@@ -47,4 +47,23 @@
       </ng-container>
     </tbody>
   </table>
+  <nav aria-label="Page navigation">
+    <ul class="pagination">
+      <li>
+        <a href="#" aria-label="Previous" (click)="incrementOffset(-5)">
+          <span aria-hidden="true">&laquo;</span>
+        </a>
+      </li>
+      <li><a href="#" (click)="load(currentPageOffset)">{{currentPageOffset + 1}}</a></li>
+      <li><a href="#" (click)="load(currentPageOffset + 1)">{{currentPageOffset + 2}}</a></li>
+      <li><a href="#" (click)="load(currentPageOffset + 2)">{{currentPageOffset + 3}}</a></li>
+      <li><a href="#" (click)="load(currentPageOffset + 3)">{{currentPageOffset + 4}}</a></li>
+      <li><a href="#" (click)="load(currentPageOffset + 4)">{{currentPageOffset + 5}}</a></li>
+      <li>
+        <a href="#" aria-label="Next" (click)="incrementOffset(5)">
+          <span aria-hidden="true">&raquo;</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
 </div>

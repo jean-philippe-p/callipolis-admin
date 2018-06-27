@@ -17,6 +17,8 @@ export class ContactComponent implements OnInit {
 
   public order: string = 'ASC';
   public processed: boolean = false;
+  public currentPageOffset = 0;
+  public currentPage = 0;
 
   constructor(private genericService: GenericService) { }
 
@@ -34,7 +36,7 @@ export class ContactComponent implements OnInit {
     if (this.processed !== null) {
       query['processed'] = this.processed ? 1 : 0;
     }
-    this.genericService.getResources('Contacts', query).subscribe(contacts => {
+    this.genericService.getResources('Contacts', query, this.currentPage).subscribe(contacts => {
       for (let i = 0; i < contacts.length; i++) {
         if (contacts[i].informations) {
           contacts[i].informations = contacts[i].informations.replace(new RegExp("\n", "g"),'<br/>');
@@ -47,8 +49,17 @@ export class ContactComponent implements OnInit {
     });
   }
 
-  load() {
+  load(page: string = null) {
+    if (page !== null) {
+      this.currentPage = Number(page);
+    }
     this.getContacts();
+    return false;
+  }
+
+  incrementOffset(increment: number) {
+    this.currentPageOffset = Math.max(0, this.currentPageOffset + increment);
+    return false;
   }
 
   save(contact: Contact) {

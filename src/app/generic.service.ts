@@ -39,12 +39,12 @@ export class GenericService {
     return this.http.delete<any>(this.serviceUrl + '/' + resource + '/' + id + '?token=' + this.loginService.token);
   }
 
-  getResources(resources: string, params: {} = {}): Observable<any> {
+  getResources(resources: string, params: {} = {}, pagination: number = null): Observable<any> {
     let query = jQuery.param(params);
     if (query) {
       query = '?' + query;
     }
-    return this.http.get<any>(this.serviceUrl + '/' + resources + query);
+    return this.http.get<any>(this.serviceUrl + '/' + resources + (pagination === null ? '' : '/' + pagination) + query);
   }
 
 }
