@@ -19,7 +19,7 @@ export class GenericService {
 
   constructor(private http: HttpClient, private loginService: LoginService) { }
 
-  getResource(resource: string, id: number): Observable<any> {
+  getResource(resource: string, id: any): Observable<any> {
     return this.http.get<any>(this.serviceUrl + '/' + resource + '/' + id);
   }
 

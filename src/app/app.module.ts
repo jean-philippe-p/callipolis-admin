@@ -22,6 +22,7 @@ import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
 import { CompanyComponent } from './company/company.component';
 import { CarouselComponent } from './carousel/carousel.component';
+import { ArticleComponent } from './article/article.component';
 
 registerLocaleData(localeFr, 'fr');
 
@@ -36,7 +37,8 @@ registerLocaleData(localeFr, 'fr');
     IntroduceComponent,
     ContactComponent,
     CompanyComponent,
-    CarouselComponent
+    CarouselComponent,
+    ArticleComponent
   ],
   imports: [
     BrowserModule,

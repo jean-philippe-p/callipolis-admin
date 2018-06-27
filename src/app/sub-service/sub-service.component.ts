@@ -24,7 +24,7 @@ export class SubServiceComponent implements OnInit, DoCheck {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private serviceService: ServiceService,
+    public serviceService: ServiceService,
     private fb: FormBuilder,
     private genericService: GenericService
   ) {

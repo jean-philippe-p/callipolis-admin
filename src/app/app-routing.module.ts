@@ -9,6 +9,7 @@ import { IntroduceComponent } from './introduce/introduce.component';
 import { ContactComponent } from './contact/contact.component';
 import { CompanyComponent } from './company/company.component';
 import { CarouselComponent } from './carousel/carousel.component';
+import { ArticleComponent } from './article/article.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/contacts', pathMatch: 'full' },
@@ -21,6 +22,8 @@ const routes: Routes = [
   { path: 'introduces/:id', component: IntroduceComponent },
   { path: 'carousel/create', component: CarouselComponent },
   { path: 'carousel/:id', component: CarouselComponent },
+  { path: 'articles/create', component: ArticleComponent },
+  { path: 'articles/:id', component: ArticleComponent },
   { path: 'companies/1', component: CompanyComponent }
 ];
 

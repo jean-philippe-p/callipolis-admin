@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MainService } from '../service';
 import { Introduce } from '../introduce';
 import { CarouselPart } from '../carousel-part';
+import { Article } from '../article';
 import { ServiceService } from '../service.service';
 import * as $ from 'jquery';
 
@@ -16,6 +17,7 @@ export class NavBarComponent implements OnInit {
   public search_matches = [];
   public introduces: Introduce[] = [];
   public carousel: CarouselPart[] = [];
+  public articles: Article[] = [];
 
   constructor(private serviceService: ServiceService) { }
 
@@ -24,6 +26,7 @@ export class NavBarComponent implements OnInit {
       this.summary_services = this.serviceService.summary_services;
       this.introduces = this.serviceService.introduces;
       this.carousel = this.serviceService.carousel;
+      this.articles = this.serviceService.articles;
       $(document).ready(function(){
         $( ".link-text" )
           .mouseover(function() {

@@ -69,6 +69,23 @@
         </li>
       </ul>
     </li>
+    <li class="dropdown">
+      <a href="#" data-toggle="dropdown" class="hvr-underline-from-center">Articles<span class="caret"></span></a>
+      <ul class="dropdown-menu">
+        <ng-container *ngFor="let article of articles">
+          <li>
+            <a routerLink="/articles/{{article.id}}">
+              <div class="link-container"><span class="link-text">article {{article.id}}</span></div>
+            </a>
+          </li>
+        </ng-container>
+        <li>
+          <a routerLink="/articles/create" style="text-align: center">
+            <div class="link-container"><span class="link-text glyphicon glyphicon-plus"></span></div>
+          </a>
+        </li>
+      </ul>
+    </li>
     <li><a routerLink="/companies/1" class="hvr-underline-from-center">Entreprise</a></li>
     <li><a routerLink="/contacts" class="hvr-underline-from-center">Demandes Clients</a></li>
   </ul>

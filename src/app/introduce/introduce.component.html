@@ -13,7 +13,13 @@
 
     <div class="form-group">
       <label for="articles">Articles</label>
-      <textarea [froalaEditor] [(ngModel)]="model.articles" id="articles" name="articles"></textarea>
+      <select *ngFor="let article of model.articles; let i = index" class="form-control" id="article-{{i}}"
+          required
+          [(ngModel)]="model.articles[i]" name="article-{{i}}"
+          style="width:200px;">
+        <option *ngFor="let availableArticle of serviceService.articles" [value]="availableArticle.id">{{availableArticle.id}}</option>
+      </select>
+      <button type="button" (click)="model.articles.push('')">+</button>
     </div>
 
     <div class="form-group">

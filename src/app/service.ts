@@ -5,7 +5,7 @@ export class Service {
   text: string;
   logo: string;
   color: string;
-  articles: string;
+  articles: string[] = [];
   important: string;
   keyWords: string[] = [];
   available: boolean = true;

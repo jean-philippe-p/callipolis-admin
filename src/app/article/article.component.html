@@ -1,0 +1,17 @@
+<div *ngIf="model">
+  <form (ngSubmit)="onSubmit()" #mainServieForm="ngForm" id="mainServieForm">
+
+    <div class="form-group">
+      <label for="id">Numéro</label>
+      <input *ngIf="!editId" type="text" class="form-control" id="id" [(ngModel)]="model.id" name="id" style="width:200px;" readonly>
+      <input *ngIf="editId" type="text" class="form-control" id="id" [(ngModel)]="model.id" name="id" style="width:200px;">
+    </div>
+
+    <div class="form-group">
+      <label for="text">Texte</label>
+      <textarea [froalaEditor] [(ngModel)]="model.text" id="text" name="text"></textarea>
+    </div>
+
+    <button type="submit">Sauvegarder</button>
+  </form>
+</div>

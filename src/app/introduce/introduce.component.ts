@@ -21,19 +21,17 @@ export class IntroduceComponent implements OnInit, DoCheck {
     private router: Router,
     private loginService: LoginService,
     private genericService: GenericService,
-    private serviceService: ServiceService
+    public serviceService: ServiceService
   ) { }
 
   ngOnInit() {
-    if (this.route.snapshot.paramMap.has('id')) {
-      this.currentId = +this.route.snapshot.paramMap.get('id');
-      this.genericService.getResource('Introduce', this.currentId).subscribe(introduce => {
-        this.model = introduce;
-      });
-    } else {
-      this.model = new Introduce();
-      this.model.display = 'carousel';
+    if (!this.route.snapshot.paramMap.has('id')) {
+      throw new Error('invalid route');
     }
+    this.currentId = +this.route.snapshot.paramMap.get('id');
+    this.genericService.getResource('Introduce', this.currentId).subscribe(introduce => {
+      this.model = introduce;
+    });
   }
 
   ngDoCheck() {
