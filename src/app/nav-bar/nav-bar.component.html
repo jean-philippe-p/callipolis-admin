@@ -58,7 +58,7 @@
         <ng-container *ngFor="let carouselPart of carousel">
           <li>
             <a routerLink="/carousel/{{carouselPart.id}}">
-              <div class="link-container"><span class="link-text">{{carouselPart.title}}</span></div>
+              <div class="link-container"><span class="link-text">{{carouselPart.title || 'pas de titre'}}</span></div>
             </a>
           </li>
         </ng-container>
