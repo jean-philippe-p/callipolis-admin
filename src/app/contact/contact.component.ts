@@ -17,8 +17,8 @@ export class ContactComponent implements OnInit {
 
   public order: string = 'ASC';
   public processed: boolean = false;
-  public currentPageOffset = 0;
-  public currentPage = 0;
+  public currentPageOffset: number = 0;
+  public currentPage: number = 0;
 
   constructor(private genericService: GenericService) { }
 
@@ -49,9 +49,9 @@ export class ContactComponent implements OnInit {
     });
   }
 
-  load(page: string = null) {
+  load(page: number = null) {
     if (page !== null) {
-      this.currentPage = Number(page);
+      this.currentPage = page;
     }
     this.getContacts();
     return false;
