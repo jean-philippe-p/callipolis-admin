@@ -22,7 +22,7 @@
           required
           [(ngModel)]="model.articles[i]" name="article-{{i}}"
           style="width:200px;">
-        <option *ngFor="let availableArticle of serviceService.articles" [value]="availableArticle.id">{{availableArticle.id}}</option>
+        <option *ngFor="let availableArticle of serviceService.articles" [value]="availableArticle.id">{{availableArticle.numero + ' - ' + availableArticle.type}}</option>
       </select>
       <button type="button" (click)="model.articles.push('')">+</button>
     </div>

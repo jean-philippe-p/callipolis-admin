@@ -75,7 +75,7 @@
         <ng-container *ngFor="let article of articles">
           <li>
             <a routerLink="/articles/{{article.id}}">
-              <div class="link-container"><span class="link-text">article {{article.id}}</span></div>
+              <div class="link-container"><span class="link-text">{{article.numero + ' - ' + article.type}}</span></div>
             </a>
           </li>
         </ng-container>

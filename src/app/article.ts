@@ -1,4 +1,7 @@
 export class Article {
-  id: string;
+  id: number;
+  type: string;
+  numero: string;
+  date: string;
   text: string;
 }

@@ -76,6 +76,9 @@ export class SubServiceComponent implements OnInit, DoCheck {
 
   onSubmit() {
     let route = typeof this.model.id === 'undefined';
+    for (let i = 0; i < this.model.articles.length; i++) {
+      this.model.articles[i] = Number(this.model.articles[i]);
+    }
     this.enable = false;
     this.genericService.setResource('SubService', this.model).subscribe(subService => {
       this.enable = true;
