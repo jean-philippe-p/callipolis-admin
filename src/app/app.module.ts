@@ -23,6 +23,7 @@ import localeFr from '@angular/common/locales/fr';
 import { CompanyComponent } from './company/company.component';
 import { CarouselComponent } from './carousel/carousel.component';
 import { ArticleComponent } from './article/article.component';
+import { SafeHtmlPipe } from './safe-html.pipe';
 
 registerLocaleData(localeFr, 'fr');
 
@@ -38,7 +39,8 @@ registerLocaleData(localeFr, 'fr');
     ContactComponent,
     CompanyComponent,
     CarouselComponent,
-    ArticleComponent
+    ArticleComponent,
+    SafeHtmlPipe
   ],
   imports: [
     BrowserModule,

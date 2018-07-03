@@ -3,4 +3,7 @@ export class CarouselPart {
   title: string;
   text: string;
   image: string;
+  left: number;
+  right: number;
+  bottom: number;
 }

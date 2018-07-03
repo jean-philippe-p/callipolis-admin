@@ -12,14 +12,34 @@
     </div>
 
     <div class="form-group">
+      <label for="left">Marge gauche</label>
+      <input type="number" class="form-control" id="left" [(ngModel)]="model.left" name="left" min="-100" max="100" value="20" style="width:100px;">
+    </div>
+
+    <div class="form-group">
+      <label for="right">Marge droite</label>
+      <input type="number" class="form-control" id="right" [(ngModel)]="model.right" name="right" min="-100" max="100" value="20" style="width:100px;">
+    </div>
+
+    <div class="form-group">
+      <label for="bottom">Marge basse</label>
+      <input type="number" class="form-control" id="bottom" [(ngModel)]="model.bottom" name="bottom" min="-100" max="100" value="20" style="width:100px;">
+    </div>
+
+    <div class="form-group">
       <label for="image">Image</label>
       <input type="file" class="form-control" id="image" name="image" (change)="uploadImage($event)" #fileInput style="width:300px;">
-      <div *ngIf="model.image">
+      <div *ngIf="model.image" style="position:absolute;overflow:hidden;height:300px" id="image-container">
         <img src="{{getImageUrl()}}" alt="Generic placeholder image" height="300">
+        <div [innerHTML]="model.text | safeHtml" style="position:absolute;text-align:center"
+          [ngStyle]="{ 'left': model.left + '%', 'font-size': getFontSize(), 'right': model.right + '%', 'bottom': model.bottom + '%' }"
+        ></div>
       </div>
     </div>
 
-    <button type="submit">Sauvegarder</button>
-    <button *ngIf="(model.id || model.id === 0)" type="button" name="delete" id="delete" class="pull-right" (click)="delete()">Supprimer</button>
+    <div style="margin-top:300px">
+      <button type="submit">Sauvegarder</button>
+      <button *ngIf="(model.id || model.id === 0)" type="button" name="delete" id="delete" class="pull-right" (click)="delete()">Supprimer</button>
+    </div>
   </form>
 </div>

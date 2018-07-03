@@ -3,6 +3,7 @@ import { CarouselPart } from '../carousel-part';
 import { ServiceService } from '../service.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { GenericService } from '../generic.service';
+import * as $ from 'jquery';
 
 import { ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -98,6 +99,10 @@ export class CarouselComponent implements OnInit, DoCheck {
 
   getImageUrl(): string {
     return this.serviceService.getLogoUrl(this.model.image);
+  }
+
+  getFontSize() {
+    return ($('#image-container').height() * 0.08) + 'px';
   }
 
 }
