@@ -1,69 +1,103 @@
 <div>
-  Statut :
-  <label class="radio-inline"><input type="radio" name="radioprocessed" (change)="processed = false;load();" checked>Non Traité</label>
-  <label class="radio-inline"><input type="radio" name="radioprocessed" (change)="processed = true;load();">Traité</label>
-  <label class="radio-inline"><input type="radio" name="radioprocessed" (change)="processed = null;load();">Tout</label>
-</div>
-<div>
-  Ordre :
-  <label class="radio-inline"><input type="radio" name="radioorder" (change)="order = 'ASC';load();" checked>date ascendante</label>
-  <label class="radio-inline"><input type="radio" name="radioorder" (change)="order = 'DESC';load();">date descendante</label>
-</div>
-<button type="button" (click)="getContacts()">Rafraichir</button>
-<div class="table-responsive">
-  <table class="table table-hover">
-    <thead>
-      <tr>
-        <th>Date</th>
-        <th>Téléphone</th>
-        <th>Email</th>
-        <th>Ville</th>
-        <th style="white-space: nowrap;">Code Postal</th>
-        <th style="width:200px">Service</th>
-        <th style="width:500px">Informations</th>
-        <th>Traité</th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      <ng-container *ngFor="let contact of contacts">
-        <tr *ngIf="true">
-          <td style="white-space: nowrap;">{{contact.creationDate | date:'fullDate':'':'fr'}}</td>
-          <td>{{contact.phone ? contact.phone : '-'}}</td>
-          <td style="white-space: nowrap;">{{contact.email ? contact.email : '-'}}</td>
-          <td>{{contact.town ? towns[contact.town][0] : '-'}}</td>
-          <td>{{contact.town ? towns[contact.town][1] : '-'}}</td>
-          <td>{{contact.service ? subServicesTitles[contact.service] : '-'}}</td>
-          <td *ngIf="contact.informations" [innerHTML]="contact.informations"></td>
-          <td *ngIf="!contact.informations">-</td>
-          <td style="white-space: nowrap;">
-            <label class="radio-inline"><input type="radio" name="{{'radiogroup' + contact.id}}" [checked]="contact.processed" (change)="contact.processed = true">Oui</label>
-            <label class="radio-inline"><input type="radio" name="{{'radiogroup' + contact.id}}" [checked]="!contact.processed" (change)="contact.processed = false">Non</label>
-          </td>
-          <td>
-            <button type="button" (click)="save(contact)"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span></button>
-          </td>
-        <tr>
-      </ng-container>
-    </tbody>
-  </table>
-  <nav aria-label="Page navigation">
-    <ul class="pagination">
-      <li>
-        <a href="#" aria-label="Previous" (click)="incrementOffset(-5)">
-          <span aria-hidden="true">&laquo;</span>
-        </a>
-      </li>
-      <li><a href="#" (click)="load(currentPageOffset)">{{currentPageOffset + 1}}</a></li>
-      <li><a href="#" (click)="load(currentPageOffset + 1)">{{currentPageOffset + 2}}</a></li>
-      <li><a href="#" (click)="load(currentPageOffset + 2)">{{currentPageOffset + 3}}</a></li>
-      <li><a href="#" (click)="load(currentPageOffset + 3)">{{currentPageOffset + 4}}</a></li>
-      <li><a href="#" (click)="load(currentPageOffset + 4)">{{currentPageOffset + 5}}</a></li>
-      <li>
-        <a href="#" aria-label="Next" (click)="incrementOffset(5)">
-          <span aria-hidden="true">&raquo;</span>
-        </a>
-      </li>
-    </ul>
-  </nav>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="block">
+        <h3 style="margin-top:5px">Statut :</h3>
+        <label class="radio-inline"><input type="radio" name="radioprocessed" (change)="processed = false;load();" checked>Non Traité</label>
+        <label class="radio-inline"><input type="radio" name="radioprocessed" (change)="processed = true;load();">Traité</label>
+        <label class="radio-inline"><input type="radio" name="radioprocessed" (change)="processed = null;load();">Tout</label>
+      </div>
+      <div class="block">
+        <h3 style="margin-top:5px">Ordre :</h3>
+        <label class="radio-inline"><input type="radio" name="radioorder" (change)="order = 'ASC';load();" checked>date ascendante</label>
+        <label class="radio-inline"><input type="radio" name="radioorder" (change)="order = 'DESC';load();">date descendante</label>
+      </div>
+      <div class="block" style="width:600px;">
+        <h3 style="margin-top:5px">Filtre :</h3>
+        <div style="width:80px;float:left;">téléphone : </div>
+        <div style="width:200px;float:left;margin-top:-4px;">
+          <input type="text" name="phone" id="phone" [(ngModel)]="phone">
+        </div>
+        <div style="width:50px;float:left;">email : </div>
+        <div style="width:200px;float:left;margin-top:-4px;">
+          <input type="text" name="email" id="email" [(ngModel)]="email">
+        </div>
+        <button type="button" (click)="getContacts()" style="float:left;;margin-top:-4px;"><span class="glyphicon glyphicon-search"></span></button>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <button type="button" (click)="getContacts()">Rafraichir</button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="table-responsive">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Téléphone</th>
+              <th>Email</th>
+              <th>Ville</th>
+              <th style="white-space: nowrap;">Code Postal</th>
+              <th style="width:200px">Service</th>
+              <th style="width:500px">Informations</th>
+              <th>Traité</th>
+              <th></th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngFor="let contact of contacts">
+              <tr *ngIf="true">
+                <td style="white-space: nowrap;">{{contact.creationDate | date:'fullDate':'':'fr'}}</td>
+                <td>{{contact.phone ? contact.phone : '-'}}</td>
+                <td style="white-space: nowrap;">{{contact.email ? contact.email : '-'}}</td>
+                <td>{{contact.town ? towns[contact.town][0] : '-'}}</td>
+                <td>{{contact.town ? towns[contact.town][1] : '-'}}</td>
+                <td>{{contact.service ? subServicesTitles[contact.service] : '-'}}</td>
+                <td *ngIf="contact.informations" [innerHTML]="contact.informations"></td>
+                <td *ngIf="!contact.informations">-</td>
+                <td style="white-space: nowrap;">
+                  <label class="radio-inline"><input type="radio" name="{{'radiogroup' + contact.id}}" [checked]="contact.processed" (change)="contact.processed = true">Oui</label>
+                  <label class="radio-inline"><input type="radio" name="{{'radiogroup' + contact.id}}" [checked]="!contact.processed" (change)="contact.processed = false">Non</label>
+                </td>
+                <td>
+                  <button type="button" (click)="save(contact)"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span></button>
+                </td>
+                <td>
+                  <button type="button" (click)="delete(contact)"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                </td>
+              <tr>
+            </ng-container>
+          </tbody>
+        </table>
+        <div class="float-center">
+          <div>
+            <nav aria-label="Page navigation">
+              <ul class="pagination">
+                <li>
+                  <a href="#" aria-label="Previous" (click)="incrementOffset(-5)">
+                    <span aria-hidden="true">&laquo;</span>
+                  </a>
+                </li>
+                <li><a href="#" (click)="load(currentPageOffset)">{{currentPageOffset + 1}}</a></li>
+                <li><a href="#" (click)="load(currentPageOffset + 1)">{{currentPageOffset + 2}}</a></li>
+                <li><a href="#" (click)="load(currentPageOffset + 2)">{{currentPageOffset + 3}}</a></li>
+                <li><a href="#" (click)="load(currentPageOffset + 3)">{{currentPageOffset + 4}}</a></li>
+                <li><a href="#" (click)="load(currentPageOffset + 4)">{{currentPageOffset + 5}}</a></li>
+                <li>
+                  <a href="#" aria-label="Next" (click)="incrementOffset(5)">
+                    <span aria-hidden="true">&raquo;</span>
+                  </a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

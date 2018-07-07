@@ -1,0 +1,23 @@
+.block {
+  float: left;
+  width: 300px;
+  padding: 10px;
+  margin: 10px;
+  border-style: solid;
+  border-width: 1px;
+}
+
+.float-center {
+  float: right;
+  position: relative;
+  left: -50%; /* or right 50% */
+  text-align: left;
+}
+.float-center > div {
+  position: relative;
+  left: 50%;
+}
+
+.pagination {
+  margin-top: 0px;
+}

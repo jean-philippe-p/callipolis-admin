@@ -20,6 +20,9 @@ export class ContactComponent implements OnInit {
   public currentPageOffset: number = 0;
   public currentPage: number = 0;
 
+  public phone: string;
+  public email: string;
+
   constructor(private genericService: GenericService) { }
 
   ngOnInit() {
@@ -36,6 +39,13 @@ export class ContactComponent implements OnInit {
     if (this.processed !== null) {
       query['processed'] = this.processed ? 1 : 0;
     }
+    if (this.phone && this.phone !== '') {
+      query['phone'] = this.phone;
+    }
+    if (this.email && this.email !== '') {
+      query['email'] = this.email;
+    }
+    console.log(query);
     this.genericService.getResources('Contacts', query, this.currentPage).subscribe(contacts => {
       for (let i = 0; i < contacts.length; i++) {
         if (contacts[i].informations) {
@@ -65,6 +75,13 @@ export class ContactComponent implements OnInit {
   save(contact: Contact) {
     this.genericService.setResource('Contact', {id: contact.id, processed: contact.processed}).subscribe(subServices => {
       alert('sauvegarde effectuée');
+    });
+  }
+
+  delete(contact: Contact) {
+    this.genericService.deleteResource('Contact', contact.id).subscribe(subService => {
+      alert('suppression effectuée');
+      this.getContacts();
     });
   }
 
