@@ -47,4 +47,12 @@ export class GenericService {
     return this.http.get<any>(this.serviceUrl + '/' + resources + (pagination === null ? '' : '/' + pagination) + query);
   }
 
+  getImageUrl(serviceId: string): string {
+    return this.serviceUrl + '/Image/' + serviceId;
+  }
+
+  uploadImage(formData: FormData): Observable<any> {
+    return this.http.post<any>(this.serviceUrl + '/upload/Image?token=' + this.loginService.token, formData);
+  }
+
 }

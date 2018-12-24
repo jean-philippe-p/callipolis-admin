@@ -1,22 +1,22 @@
 import { Component, OnInit, DoCheck } from '@angular/core';
-import { MainService } from '../service';
+import { BlogArticle } from '../blogArticle';
+import { BlogArticleElement } from '../blogArticleElement';
 import { ServiceService } from '../service.service';
-import { GenericService } from '../generic.service';
-import { LoginService } from '../login.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { GenericService } from '../generic.service';
 
 import { ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'app-main-service',
-  templateUrl: './main-service.component.html',
-  styleUrls: ['./main-service.component.css']
+  selector: 'app-blog-article',
+  templateUrl: './blog-article.component.html',
+  styleUrls: ['./blog-article.component.css']
 })
-export class MainServiceComponent implements OnInit, DoCheck {
+export class BlogArticleComponent implements OnInit {
 
-  public currentId;
-  public model: MainService;
+  private currentId;
+  public model: BlogArticle;
   public form: FormGroup;
   public enable: boolean = false;
 
@@ -25,9 +25,8 @@ export class MainServiceComponent implements OnInit, DoCheck {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private serviceService: ServiceService,
+    public serviceService: ServiceService,
     private fb: FormBuilder,
-    private loginService: LoginService,
     private genericService: GenericService
   ) {
     this.form = this.fb.group({
@@ -39,22 +38,21 @@ export class MainServiceComponent implements OnInit, DoCheck {
   ngOnInit() {
     if (this.route.snapshot.paramMap.has('id')) {
       this.currentId = +this.route.snapshot.paramMap.get('id');
-      this.genericService.getResource('MainService', this.currentId).subscribe(mainService => {
-        this.model = mainService;
+      this.genericService.getResource('BlogArticle', this.currentId).subscribe(blogArticle => {
+        this.model = blogArticle;
       });
     } else {
-      this.model = new MainService();
-      this.model.subServices = [];
+      this.model = new BlogArticle();
     }
   }
 
   ngDoCheck() {
     if (this.route.snapshot.paramMap.has('id')) {
       const id = +this.route.snapshot.paramMap.get('id');
-     if (this.currentId !== id) {
+      if (this.currentId !== id) {
         this.currentId = id;
-        this.genericService.getResource('MainService', this.currentId).subscribe(mainService => {
-          this.model = mainService;
+        this.genericService.getResource('BlogArticle', this.currentId).subscribe(blogArticle => {
+          this.model = blogArticle;
         });
       }
     }
@@ -70,7 +68,7 @@ export class MainServiceComponent implements OnInit, DoCheck {
 
       this.enable = false;
       this.genericService.uploadImage(formData).subscribe(response => {
-        this.model.logo = response.id;
+        this.model.image = response.id;
         this.enable = true;
       });
     }
@@ -78,32 +76,27 @@ export class MainServiceComponent implements OnInit, DoCheck {
 
   onSubmit() {
     let route = typeof this.model.id === 'undefined';
+    for (let i = 0; i < this.model.blogArticleElements.length; i++) {
+      this.model.blogArticleElements[i] = this.model.blogArticleElements[i];
+    }
     this.enable = false;
-    this.genericService.setResource('MainService', this.model).subscribe(mainService => {
+    this.genericService.setResource('BlogArticle', this.model).subscribe(blogArticle => {
       this.enable = true;
       alert('sauvegarde effectuée');
       if (route) {
         this.serviceService.getNavBarElements().subscribe(res => {
-          this.router.navigate(['/services/' + this.model.id]);
+          this.router.navigate(['/services/' + this.route.snapshot.paramMap.get('id') + '/sub-services/' + this.model.id]);
         });
       }
     });
   }
 
   delete() {
-    this.enable = false;
-    const obj = new MainService();
-    obj.id = this.model.id;
-    obj.available = false;
-    this.genericService.setResource('MainService', obj).subscribe(mainService => {
-      this.enable = true;
-      alert('suppression effectuée');
-      this.serviceService.getNavBarElements().subscribe(res => {this.router.navigate(['/contacts']);});
-    });
+    alert('suppression non disponible');
   }
 
   getLogoUrl(): string {
-    return this.genericService.getImageUrl(this.model.logo);
+    return this.genericService.getImageUrl(this.model.image);
   }
 
 }

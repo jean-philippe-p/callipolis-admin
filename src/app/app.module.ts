@@ -24,6 +24,7 @@ import { CompanyComponent } from './company/company.component';
 import { CarouselComponent } from './carousel/carousel.component';
 import { ArticleComponent } from './article/article.component';
 import { SafeHtmlPipe } from './safe-html.pipe';
+import { BlogArticleComponent } from './blog-article/blog-article.component';
 
 registerLocaleData(localeFr, 'fr');
 
@@ -40,7 +41,8 @@ registerLocaleData(localeFr, 'fr');
     CompanyComponent,
     CarouselComponent,
     ArticleComponent,
-    SafeHtmlPipe
+    SafeHtmlPipe,
+    BlogArticleComponent
   ],
   imports: [
     BrowserModule,

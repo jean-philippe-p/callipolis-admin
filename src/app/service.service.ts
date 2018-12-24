@@ -55,12 +55,4 @@ export class ServiceService {
     return this.http.get<MainService[]>(this.serviceUrl + '/MainServices');
   }
 
-  uploadLogo(formData: FormData): Observable<any> {
-    return this.http.post<MainService>(this.serviceUrl + '/upload/Logo?token=' + this.loginService.token, formData);
-  }
-
-  getLogoUrl(serviceId: string): string {
-    return this.serviceUrl + '/Logo/' + serviceId;
-  }
-
 }

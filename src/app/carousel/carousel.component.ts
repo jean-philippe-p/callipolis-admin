@@ -64,10 +64,10 @@ export class CarouselComponent implements OnInit, DoCheck {
       this.form.get('image').setValue(file);
 
       const formData = new FormData();
-      formData.append('logo', this.form.get('image').value);
+      formData.append('image', this.form.get('image').value);
 
       this.enable = false;
-      this.serviceService.uploadLogo(formData).subscribe(response => {
+      this.genericService.uploadImage(formData).subscribe(response => {
         this.model.image = response.id;
         this.enable = true;
       });
@@ -98,7 +98,7 @@ export class CarouselComponent implements OnInit, DoCheck {
   }
 
   getImageUrl(): string {
-    return this.serviceService.getLogoUrl(this.model.image);
+    return this.genericService.getImageUrl(this.model.image);
   }
 
   getFontSize() {

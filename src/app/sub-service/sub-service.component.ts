@@ -64,10 +64,10 @@ export class SubServiceComponent implements OnInit, DoCheck {
       this.form.get('logo').setValue(file);
 
       const formData = new FormData();
-      formData.append('logo', this.form.get('logo').value);
+      formData.append('image', this.form.get('logo').value);
 
       this.enable = false;
-      this.serviceService.uploadLogo(formData).subscribe(response => {
+      this.genericService.uploadImage(formData).subscribe(response => {
         this.model.logo = response.id;
         this.enable = true;
       });
@@ -104,7 +104,7 @@ export class SubServiceComponent implements OnInit, DoCheck {
   }
 
   getLogoUrl(): string {
-    return this.serviceService.getLogoUrl(this.model.logo);
+    return this.genericService.getImageUrl(this.model.logo);
   }
 
   trackByFn(index: any, item: any) {
