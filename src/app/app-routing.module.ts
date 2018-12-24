@@ -10,6 +10,8 @@ import { ContactComponent } from './contact/contact.component';
 import { CompanyComponent } from './company/company.component';
 import { CarouselComponent } from './carousel/carousel.component';
 import { ArticleComponent } from './article/article.component';
+import { BlogArticleComponent } from './blog-article/blog-article.component';
+import { ArticleBlogListComponent } from './article-blog-list/article-blog-list.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/contacts', pathMatch: 'full' },
@@ -24,7 +26,10 @@ const routes: Routes = [
   { path: 'carousel/:id', component: CarouselComponent },
   { path: 'articles/create', component: ArticleComponent },
   { path: 'articles/:id', component: ArticleComponent },
-  { path: 'companies/1', component: CompanyComponent }
+  { path: 'companies/1', component: CompanyComponent },
+  { path: 'blog/article/create', component: BlogArticleComponent },
+  { path: 'blog/article/:id', component: BlogArticleComponent },
+  { path: 'blog/articles', component: ArticleBlogListComponent }
 ];
 
 @NgModule({

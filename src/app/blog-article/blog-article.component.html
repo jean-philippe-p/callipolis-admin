@@ -1,26 +1,59 @@
-<div *ngIf="model" class="service">
+<div *ngIf="model">
+  <h1>Résumé de l'aticle</h1>
   <form (ngSubmit)="onSubmit()" #mainServieForm="ngForm" id="mainServieForm">
 
     <div class="form-group">
-      <label for="title">Titre</label>
+      <label for="title">Titre : </label>
       <input type="text" class="form-control" id="title" [(ngModel)]="model.title" name="title" style="width:200px;">
     </div>
 
     <div class="form-group">
-      <label for="summary">Résumé</label>
-      <textarea [froalaEditor] [(ngModel)]="model.summary" id="summary" name="summary"></textarea>
+      <label for="resume">Résumé : </label>
+      <textarea [froalaEditor] [(ngModel)]="model.resume" id="resume" name="resume"></textarea>
     </div>
 
     <div class="form-group">
-      <label for="logo">Image</label>
-      <input type="file" class="form-control" id="logo" name="logo" (change)="uploadLogo($event)" #fileInput style="width:300px;">
-      <div *ngIf="model.logo">
-        <img class="img-circle"
-              [ngStyle]="{'backgroundColor': model.color}"
-              src="{{getLogoUrl()}}"
-              alt="Generic placeholder image" width="120" height="120"
+      <label for="image">Image : </label>
+      <input type="file" class="form-control" id="image" name="image" (change)="uploadImage($event, 'image', model)" #fileInput style="width:300px;">
+      <div *ngIf="model.image">
+        <img width=500px
+              src="{{getImageUrl(model.image)}}"
+              alt="Generic placeholder image"
         >
       </div>
+    </div>
+    <div *ngIf="model.id">
+      <h1>Elements de l'article</h1>
+      <ng-container *ngFor="let element of blogArticleElements; let i = index">
+        <div>
+          <div *ngIf="isChapterElement(element)">
+            <div class="form-group">
+              <label for="chapter-{{i}}">Chapitre : </label>
+              <textarea [froalaEditor] [(ngModel)]="element.text" id="chapter-{{i}}" name="chapter-{{i}}"></textarea>
+            </div>
+          </div>
+          <div *ngIf="isImageElement(element)">
+            <label for="image-{{i}}">Image : </label>
+            <input type="file" class="form-control" id="image-{{i}}" name="image-{{i}}" (change)="uploadImage($event, getImageInputname(i), element)" #fileInput style="width:300px;">
+            <div class="form-group">
+              <label for="legend-{{i}}">Légende : </label>
+              <textarea [(ngModel)]="element.legend" id="legend-{{i}}" name="legend-{{i}}"></textarea>
+            </div>
+            <figure>
+              <img src="{{getImageUrl(element.image)}}" alt="Generic placeholder image" style="width:500px">
+              <figcaption *ngIf="element.legend">{{element.legend}}</figcaption>
+            </figure>
+          </div>
+        </div>
+        <div style="width:1000px;height:5px;background-color:red;margin:25px"></div>
+      </ng-container>
+      <a (click)="addChapter()" class="btn btn-default">
+        ajouter un chapitre
+      </a>
+      <a (click)="addImage()" class="btn btn-default">
+        ajouter une image
+      </a>
+      <div style="width:1000px;height:25px;"></div>
     </div>
 
     <button type="submit" name="submit" id="submit">Sauvegarder</button>

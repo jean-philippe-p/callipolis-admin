@@ -1,6 +1,6 @@
 import { Component, OnInit, DoCheck } from '@angular/core';
 import { BlogArticle } from '../blogArticle';
-import { BlogArticleElement } from '../blogArticleElement';
+import { BlogArticleElement, BlogArticleChapter, BlogArticleImage } from '../blogArticleElement';
 import { ServiceService } from '../service.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { GenericService } from '../generic.service';
@@ -18,7 +18,9 @@ export class BlogArticleComponent implements OnInit {
   private currentId;
   public model: BlogArticle;
   public form: FormGroup;
+  public forms = {};
   public enable: boolean = false;
+  public blogArticleElements: BlogArticleElement[] = [];
 
   @ViewChild('fileInput') fileInput: ElementRef;
 
@@ -31,7 +33,7 @@ export class BlogArticleComponent implements OnInit {
   ) {
     this.form = this.fb.group({
       name: ['', Validators.required],
-      logo: null
+      image: null
     });
   }
 
@@ -40,6 +42,16 @@ export class BlogArticleComponent implements OnInit {
       this.currentId = +this.route.snapshot.paramMap.get('id');
       this.genericService.getResource('BlogArticle', this.currentId).subscribe(blogArticle => {
         this.model = blogArticle;
+
+        this.genericService.getResources('BlogArticleElements', {parent:this.model.id}).subscribe(blogArticleElements => {
+          for (let i = 0; i < blogArticleElements.length; i++) {
+            if (blogArticleElements[i].__inheritance__ === 'BlogArticleChapter') {
+              this.addChapter(blogArticleElements[i]);
+            } else if (blogArticleElements[i].__inheritance__ === 'BlogArticleImage') {
+              this.addImage(blogArticleElements[i]);
+            }
+          }
+        });
       });
     } else {
       this.model = new BlogArticle();
@@ -58,17 +70,18 @@ export class BlogArticleComponent implements OnInit {
     }
   }
 
-  uploadLogo(event) {
+  uploadImage(event, inputName, obj) {
+    let form = inputName === 'image' ? this.form : this.forms[inputName];
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
-      this.form.get('logo').setValue(file);
+      form.get(inputName).setValue(file);
 
       const formData = new FormData();
-      formData.append('image', this.form.get('logo').value);
+      formData.append('image', form.get(inputName).value);
 
       this.enable = false;
       this.genericService.uploadImage(formData).subscribe(response => {
-        this.model.image = response.id;
+        obj.image = response.id;
         this.enable = true;
       });
     }
@@ -76,27 +89,67 @@ export class BlogArticleComponent implements OnInit {
 
   onSubmit() {
     let route = typeof this.model.id === 'undefined';
-    for (let i = 0; i < this.model.blogArticleElements.length; i++) {
-      this.model.blogArticleElements[i] = this.model.blogArticleElements[i];
-    }
     this.enable = false;
+    let doneCount = 0;
     this.genericService.setResource('BlogArticle', this.model).subscribe(blogArticle => {
-      this.enable = true;
-      alert('sauvegarde effectuée');
-      if (route) {
-        this.serviceService.getNavBarElements().subscribe(res => {
-          this.router.navigate(['/services/' + this.route.snapshot.paramMap.get('id') + '/sub-services/' + this.model.id]);
-        });
+      if (this.blogArticleElements.length == 0) {
+        this.finalizeSubmit(route);
+      } else {
+        for (let i = 0; i < this.blogArticleElements.length; i++) {
+          this.blogArticleElements[i].parent = this.model.id;
+          this.genericService.setResource('BlogArticleElement', this.blogArticleElements[i]).subscribe(blogArticleElement => {
+            doneCount++;
+            if (doneCount == this.blogArticleElements.length) {
+              this.finalizeSubmit(route);
+            }
+          });
+        }
       }
     });
+  }
+
+  finalizeSubmit(route) {
+    this.enable = true;
+
+    alert('sauvegarde effectuée');
+    if (route) {
+      this.serviceService.getNavBarElements().subscribe(res => {
+        this.router.navigate(['/blog/article/' + this.model.id]);
+      });
+    }
   }
 
   delete() {
     alert('suppression non disponible');
   }
 
-  getLogoUrl(): string {
-    return this.genericService.getImageUrl(this.model.image);
+  getImageUrl(imageId): string {
+    return this.genericService.getImageUrl(imageId);
+  }
+
+  isChapterElement(element: BlogArticleElement) {
+    return (element instanceof BlogArticleChapter);
+  }
+
+  isImageElement(element: BlogArticleElement) {
+    return (element instanceof BlogArticleImage);
+  }
+
+  addChapter(blogArticle = null) {
+    this.blogArticleElements.push(new BlogArticleChapter(blogArticle));
+  }
+
+  addImage(blogArticle = null) {
+    let key = 'image-' + this.blogArticleElements.length;
+    let param: any = {};
+    param.name = ['', Validators.required];
+    param[key] = null;
+    this.forms[key] = this.fb.group(param);
+    this.blogArticleElements.push(new BlogArticleImage(blogArticle));
+  }
+
+  getImageInputname(id) {
+    return 'image-' + id;
   }
 
 }

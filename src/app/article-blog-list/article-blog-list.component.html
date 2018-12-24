@@ -1,0 +1,10 @@
+<div>
+  <a routerLink="/blog/article/create" class="btn btn-default">
+    <span class="glyphicon glyphicon-plus"></span>
+  </a>
+</div>
+<ng-container *ngFor="let blogArticle of blogArticles">
+  <a routerLink="/blog/article/{{blogArticle.id}}" class="btn btn-default">
+    {{blogArticle.title}}
+  </a>
+</ng-container>
